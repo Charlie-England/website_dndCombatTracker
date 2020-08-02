@@ -31,6 +31,8 @@ function NPC(name, initiative=0, ac=0, hp=0) {
     this.hp = hp;
 }
 
+/*******************Add Buttons****************/
+
 $(".next-init").click(function() {
     moveInitiative();
 })
@@ -43,6 +45,24 @@ $(".addCharacter").click(function() {
 
     createCharFromModal()
 })
+
+$(".update-init").click(function() {
+    if (!$(".update-init").hasClass("disabled")) {
+        updateNewInitiative();
+    }
+})
+
+function updateNewInitiative() {
+    //updates the initiative of all elements
+    //adds the disabled class to the update-init
+    $(".update-init").addClass("disabled");
+}
+
+function removeDisabledFromUpdateButton() {
+    //called when an initiative is changed
+    //removes the disabled class from the update-init
+    $(".update-init").removeClass("disabled");
+}
 
 function moveInitiative() {
     //finds the key to the currently active initiative
@@ -90,6 +110,9 @@ function createCharFromModal() {
     if ($("#playerRadio").is(":checked")) {
         let playerName = $("#name").val();
         let newPlayerInit = $("#newCharInit").val();
+        if (newPlayerInit == "") { //if the new char is blank, set to 0
+            newPlayerInit = 0;
+        }
         let newPlayerAC = $("#newCharAC").val();
 
         let newPlayer = new Player(playerName, newPlayerInit, newPlayerAC);
@@ -97,6 +120,9 @@ function createCharFromModal() {
     } else {
         let charName = $("#name").val();
         let newCharInit = $("#newCharInit").val();
+        if (newCharInit == "") { //if the new char is blank, set to 0
+            newCharInit = 0;
+        }
         let newCharAC = $("#newCharAC").val();
         let newCharHP = $("#newCharHP").val();
 
@@ -134,7 +160,7 @@ function populateInitGroup() {
 
         $(".row-3").append(`<div class="row character-row">
         <div class="col col-12 character-col">
-          <input type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
+          <input onchange="removeDisabledFromUpdateButton()" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
           <div class="${borderCharInfoDiv}">
             <p>${selectedChar.name}</p>
             <p></p>
