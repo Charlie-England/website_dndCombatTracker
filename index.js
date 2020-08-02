@@ -51,16 +51,16 @@ $(".addCharacter").click(function() {
 $(".update-init").click(function() {
     if (!$(".update-init").prop("disabled")) {
         // updateNewInitiative();
-        sortInitiative();
+        sortClearAndUpdateInitiative();
     }
 })
 
+
+
+/*****************INITIATIVE LOGIC***********************/
+
 function updateInitiativeClass(curClass, newInit) {
     curClass.initiative = newInit;
-}
-
-function sortInitiative() {
-    sortClearAndUpdateInitiative();
 }
 
 function updateInitFromChange(keyValue, classSearchWord) {
@@ -100,6 +100,132 @@ function moveInitiative() {
     $(`.text-init-order-${nextInit}`).addClass("active-init");
 }
 
+function populateInitGroup() {
+    //goes through characterList and creates both a button and textfield with initiative for each character
+    sortCharList();
+
+    for (let i = 0; i < sortedCharacterList.length; i++) {
+        let selectedChar = sortedCharacterList[i];
+        let textInputInitColorStart = `text-init align-top text-init-order-${i}`;
+        let borderCharInfoDiv = `character-info init-order-${i}`;
+        let health = "";
+
+        if (i == 0) {
+            textInputInitColorStart = `active-init text-init align-top text-init-order-${i}`
+            borderCharInfoDiv = `character-info active-char init-order-${i}`;
+        }
+
+        if (selectedChar.type == "player") {
+            health = `Player`;
+        } else {
+            health = `<p><span class="currentHP">0</span> / <span class="maxHP">6</span></p>`;
+        }
+
+        $(".row-3").append(`<div class="row character-row">
+        <div class="col col-12 character-col">
+          <input onchange="updateInitFromChange(${i},'text-init-order-${i}')" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
+          <div class="${borderCharInfoDiv}">
+            <p>${selectedChar.name}</p>
+            <p></p>
+          </div>
+          <div class="char-hp align-top">
+            ${health}
+          </div>
+        </div>
+      </div>`);
+    }
+}
+
+function sortCharList() {
+    sortedCharacterList = [];
+    //Takes the characterList and sorts it by initiative
+    for (let i = 0; i < characterList.length; i++) {
+        let character = characterList[i];
+        let charInit = character.initiative;
+        sortInit(charInit, character);
+    }
+    updateInitiativeDictionary();
+}
+
+function sortInit(charInit, character) {
+    //takes the characterinitiative and character class object
+    //goes through the sortedCharList and compares the initiative recieved with each one
+    //if the initiative is greater than, add at the current initiative
+    //if the initiative is equal, randomly add it before or after
+    //if the initiative is less than what is currently in the list, once iteration is done, pass will be false and it will add to sorted list
+    let pass = false;
+    let sortedCharLength = sortedCharacterList.length;
+    for (let i = 0; i < sortedCharLength; i++) {
+        pass = false;
+        let compareInit = sortedCharacterList[i].initiative;
+        console.log(`${charInit} -- ${compareInit}`);
+        if (charInit > compareInit) {
+            pass = true;
+            sortedCharacterList.splice(i,0,character);
+            return ""
+        } else if (charInit == compareInit) {
+            pass = true;
+            //random before or after **
+            sortedCharacterList.splice(i,0,character);
+            return ""
+        }
+    }
+    if (!pass) {
+        sortedCharacterList.push(character);
+    }
+}
+
+function updateInitiativeDictionary() {
+    //called after sortCharList()
+    //takes the final sortedCharacterList and adds these to the dictionary with the keys
+    for (let i = 0; i < sortedCharacterList.length; i++) {
+        initiativeDict[i] = [sortedCharacterList[i], false];
+    }
+    initiativeDict[0][1] = true;
+}
+
+function clearInitiativeGroup() {
+    //clears the button-group and initiative-group divs then adds the p tag elements back
+    $(".row-3").empty();
+}
+
+function clearModal() {
+    $("#name").val("");
+    $("#newCharInit").val("");
+    $("#newCharAC").val("");
+    $("#newCharHP").val("");
+}
+
+function sortClearAndUpdateInitiative() {
+    //control function to be used to clear out the initiative group and then
+    //populates the initiative group
+    /// REMOVE ACTIVE CHARS
+    removeActive();
+
+    clearInitiativeGroup();
+    populateInitGroup();
+    
+    // ADD ACTIVE CHARS
+}
+
+function removeActive() {
+    //finds the reference key for the active initiative
+    let referenceKey = "";
+    for (let i = 0; i < sortedCharacterList.length; i++) {
+        if (initiativeDict[i][1]) {
+            referenceKey = i;
+        }
+    }
+    //uses reference key to find the specific classes
+    //removes the active-init and active-char from these classes
+    if (!referenceKey == "") {
+        $(`.text-init-order-${referenceKey}`).removeClass("active-init");
+        $(`.init-order-${referenceKey}`).removeClass("active-char");
+        console.log("should remove active")
+    }
+}
+
+
 function checkAddCharModal() {
     //checks to make sure the needed values in the modal are there and returns true
     let name = $("#name").val();
@@ -109,6 +235,8 @@ function checkAddCharModal() {
         return false
     }
 }
+
+/******************MODAL LOGIC******************/
 
 function createCharFromModal() {
     //Takes the current information in the modal
@@ -144,112 +272,6 @@ function createCharFromModal() {
     //clear Modal
     clearModal();
     //close Modal ***
-    if (!$(".update-init").prop("disabled")) {
-        updateNewInitiative();
-    }
 
     sortClearAndUpdateInitiative();
-}
-
-function populateInitGroup() {
-    //goes through characterList and creates both a button and textfield with initiative for each character
-    sortCharList();
-
-    for (let i = 0; i < sortedCharacterList.length; i++) {
-        let selectedChar = sortedCharacterList[i];
-        let textInputInitColorStart = `text-init align-top text-init-order-${i}`;
-        let borderCharInfoDiv = `character-info init-order-${i}`;
-        let health = "";
-
-        if (i == 0) {
-            textInputInitColorStart = `active-init text-init align-top text-init-order-${i}`
-            borderCharInfoDiv = `character-info active-char init-order-${i}`;
-        }
-
-        if (selectedChar.type == "player") {
-            health = `Player`;
-        } else {
-            health = `<p><span class="currentHP">0</span> / <span class="maxHP">6</span></p>`;
-        }
-
-        $(".row-3").append(`<div class="row character-row">
-        <div class="col col-12 character-col">
-          <input onchange="updateInitFromChange(${i},'text-init-order-${i}')" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
-          <div class="${borderCharInfoDiv}">
-            <p>${selectedChar.name}</p>
-            <p></p>
-          </div>
-          <div class="char-hp align-top">
-            ${health}
-          </div>
-        </div>
-      </div>`);
-    }
-    
-}
-
-
-function sortCharList() {
-    //Takes the characterList and sorts it by initiative
-    sortedCharacterList = [];
-    for (let i = 0; i < characterList.length; i++) {
-        let character = characterList[i];
-        let charInit = character.initiative;
-        sortInit(charInit, character);
-    }
-    updateInitiativeDictionary();
-}
-
-function updateInitiativeDictionary() {
-    //called after sortCharList()
-    //takes the final sortedCharacterList and adds these to the dictionary with the keys
-    for (let i = 0; i < sortedCharacterList.length; i++) {
-        initiativeDict[i] = [sortedCharacterList[i], false];
-    }
-    initiativeDict[0][1] = true;
-}
-
-function sortInit(charInit, character) {
-    //takes the characterinitiative and character class object
-    //goes through the sortedCharList and compares the initiative recieved with each one
-    //if the initiative is greater than, add at the current initiative
-    //if the initiative is equal, randomly add it before or after
-    //if the initiative is less than what is currently in the list, once iteration is done, pass will be false and it will add to sorted list
-    let pass = false;
-    let sortedCharLength = sortedCharacterList.length;
-    for (let i = 0; i < sortedCharLength; i++) {
-        let compareInit = sortedCharacterList[i].initiative;
-        if (charInit > compareInit) {
-            pass = true;
-            sortedCharacterList.splice(i,0,character);
-            return ""
-        } else if (charInit == compareInit) {
-            pass = true;
-            //random before or after **
-            sortedCharacterList.splice(i,0,character);
-            return ""
-        }
-    }
-    if (!pass) {
-        sortedCharacterList.push(character);
-    }
-}
-
-function clearInitiativeGroup() {
-    //clears the button-group and initiative-group divs then adds the p tag elements back
-    $(".row-3").empty();
-}
-
-function clearModal() {
-    $("#name").val("");
-    $("#newCharInit").val("");
-    $("#newCharAC").val("");
-    $("#newCharHP").val("");
-}
-
-function sortClearAndUpdateInitiative() {
-    //control function to be used to clear out the initiative group and then
-    //populates the initiative group
-    clearInitiativeGroup();
-    populateInitGroup();
 }
