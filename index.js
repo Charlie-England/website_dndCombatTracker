@@ -33,6 +33,8 @@ function NPC(name, initiative=0, ac=0, hp=0) {
 
 /*******************Add Buttons****************/
 
+$(".update-init").prop("disabled", true);
+
 $(".next-init").click(function() {
     moveInitiative();
 })
@@ -47,7 +49,7 @@ $(".addCharacter").click(function() {
 })
 
 $(".update-init").click(function() {
-    if (!$(".update-init").hasClass("disabled")) {
+    if (!$(".update-init").prop("disabled")) {
         updateNewInitiative();
     }
 })
@@ -55,13 +57,13 @@ $(".update-init").click(function() {
 function updateNewInitiative() {
     //updates the initiative of all elements
     //adds the disabled class to the update-init
-    $(".update-init").addClass("disabled");
+    $(".update-init").prop("disabled", true);
 }
 
 function removeDisabledFromUpdateButton() {
     //called when an initiative is changed
     //removes the disabled class from the update-init
-    $(".update-init").removeClass("disabled");
+    $(".update-init").prop("disabled", false);
 }
 
 function moveInitiative() {
