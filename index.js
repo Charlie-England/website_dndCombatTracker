@@ -116,7 +116,7 @@ function populateInitGroup() {
         }
 
         if (selectedChar.type == "player") {
-            health = `Player`;
+            health = `<p>Player</p>`;
         } else {
             health = `<p><span class="currentHP">0</span> / <span class="maxHP">6</span></p>`;
         }
@@ -124,7 +124,7 @@ function populateInitGroup() {
         $(".row-3").append(`<div class="row character-row">
         <div class="col col-12 character-col">
           <input onchange="updateInitFromChange(${i},'text-init-order-${i}')" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
-          <div class="${borderCharInfoDiv}">
+          <div class="${borderCharInfoDiv}" onclick="openSide(${i})">
             <p>${selectedChar.name}</p>
             <p></p>
           </div>
@@ -158,7 +158,6 @@ function sortInit(charInit, character) {
     for (let i = 0; i < sortedCharLength; i++) {
         pass = false;
         let compareInit = sortedCharacterList[i].initiative;
-        console.log(`${charInit} -- ${compareInit}`);
         if (charInit > compareInit) {
             pass = true;
             sortedCharacterList.splice(i,0,character);
@@ -204,8 +203,6 @@ function sortClearAndUpdateInitiative() {
 
     clearInitiativeGroup();
     populateInitGroup();
-    
-    // ADD ACTIVE CHARS
 }
 
 function removeActive() {
@@ -274,4 +271,38 @@ function createCharFromModal() {
     //close Modal ***
 
     sortClearAndUpdateInitiative();
+}
+
+/*****************Right Side Panel Code*****************/
+function openSide(referenceKey) {
+    let character = initiativeDict[referenceKey][0];
+
+    //clear moreInfoDiv to get ready for addition of new one
+    clearSidePanelDivs();
+
+    //call functions to create divs
+    if (character.type == "player") {
+        //call player function
+        $(".side-panel-character").append("<h3>Player Div</h3>")
+    } else if (character.type == "npc") {
+        //call npc moreInfo function
+        $(".side-panel-character").append("<h3>NPC Div</h3>")
+    }
+
+    //remove more-info column hidden
+    toggleMoreInfoHidden("show");
+}
+
+function toggleMoreInfoHidden(plan) {
+    //takes string (show or hide) and changes the visibility of more info
+    if (plan == "show") {
+        $(".more-info").removeClass("hidden");
+    } else if (plan == "hide") {
+        $(".more-info").addClass("hidden");
+    }
+}
+
+function clearSidePanelDivs() {
+    //removes all the divs under the more-info class div
+    $(".side-panel-character").empty();
 }
