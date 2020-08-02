@@ -58,6 +58,7 @@ body {
     border: none;
     text-align: center;
     margin: 5px -5px auto 10px;
+    padding: 0;
 }
 
 .char-hp {

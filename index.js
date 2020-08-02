@@ -1,6 +1,6 @@
 let characterList = [];
 let sortedCharacterList = [];
-let initiativeDict = {};
+let initiativeDict = {}; // 0:[player/npcClass, activeInitBool (true/false)]
 
 let kezil = new Player("Kezil", 17);
 let selryn = new Player("Selryn", 15);
@@ -50,19 +50,28 @@ $(".addCharacter").click(function() {
 
 $(".update-init").click(function() {
     if (!$(".update-init").prop("disabled")) {
-        updateNewInitiative();
+        // updateNewInitiative();
+        sortInitiative();
     }
 })
 
-function updateNewInitiative() {
-    //updates the initiative of all elements
-    //adds the disabled class to the update-init
-    $(".update-init").prop("disabled", true);
+function updateInitiativeClass(curClass, newInit) {
+    curClass.initiative = newInit;
+}
+
+function sortInitiative() {
+    sortClearAndUpdateInitiative();
+}
+
+function updateInitFromChange(keyValue, classSearchWord) {
+    let newInit = $(`.${classSearchWord}`).val();
+    updateInitiativeClass(initiativeDict[keyValue][0], newInit);
+    removeDisabledFromUpdateButton();
 }
 
 function removeDisabledFromUpdateButton() {
     //called when an initiative is changed
-    //removes the disabled class from the update-init
+    //removes the disabled property from the update-init
     $(".update-init").prop("disabled", false);
 }
 
@@ -135,6 +144,9 @@ function createCharFromModal() {
     //clear Modal
     clearModal();
     //close Modal ***
+    if (!$(".update-init").prop("disabled")) {
+        updateNewInitiative();
+    }
 
     sortClearAndUpdateInitiative();
 }
@@ -162,7 +174,7 @@ function populateInitGroup() {
 
         $(".row-3").append(`<div class="row character-row">
         <div class="col col-12 character-col">
-          <input onchange="removeDisabledFromUpdateButton()" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
+          <input onchange="updateInitFromChange(${i},'text-init-order-${i}')" type="text" value="${selectedChar.initiative}" class="${textInputInitColorStart}">
           <div class="${borderCharInfoDiv}">
             <p>${selectedChar.name}</p>
             <p></p>
