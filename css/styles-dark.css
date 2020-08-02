@@ -1,0 +1,105 @@
+body {
+    background-color: #222831;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+.initiative-group {
+    background-color: #222831;
+    border: solid;
+    border-color: gray;
+}
+
+.character-button {
+    width:100%;
+    height: 30px;
+}
+
+.initiative-text {
+    width: 20%;
+    height: 30px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.top-init-buttons {
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+.bottom-init-buttons {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.row-2 {
+    border-bottom: solid;
+    border-color: gray;
+    margin-bottom: 15px;
+}
+
+.row-4 {
+    border-top: solid;
+    border-color: gray;
+    margin-top: 10px;
+}
+
+.text-init {
+    background-color: #30475e;
+    color: white;
+    height: 40%;
+    width: 8%;
+    border: none;
+    text-align: center;
+    margin: 5px -5px auto 10px;
+}
+
+.char-hp {
+    display: inline-block;
+    width: 18%;
+    background-color: #30475e;
+    height: 80%;
+    margin: 5px -5px auto 0px;
+    text-align: center;
+    border-width: 1px;
+    border-color: #bbbcbe;
+    border-style: solid solid solid none;
+}
+
+.character-info {
+    display: inline-block;
+    border: 1px solid #e1e2e4;
+    border-color: gray;
+    margin: 5px -5px 20px 0;
+    width: 70%;
+    border-bottom-left-radius: 3px;
+    height: 80%;
+}
+
+.active-init {
+    background-color: #1b9af0;
+    color: white;
+}
+
+.active-char {
+    border-color: #1b9af0;
+    border-width: 3px;
+}
+
+.character-col {
+    padding: 0;
+}
+
+.text-init:hover {
+    background-color: #bbbbbb
+}
+
+.active-init:hover {
+    background-color: #7ac0ee;
+}
+
+.char-hp:hover {
+    background-color: #bbbbbb;
+}
