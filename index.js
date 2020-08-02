@@ -1,10 +1,11 @@
 let characterList = [];
+let sortedCharacterList = [];
+let initiativeDict = {};
 
 let kezil = new Player("Kezil", 17);
 let selryn = new Player("Selryn", 15);
 let goblin = new NPC("Goblin", 12, 16, 7);
 
-let sortedCharacterList = [];
 
 //test code
 characterList.push(kezil);
@@ -44,7 +45,28 @@ $(".addCharacter").click(function() {
 })
 
 function moveInitiative() {
-    
+    //finds the key to the currently active initiative
+    //removes the active-char and active-init classes using this as a reference
+    //changes the active initiative to false
+
+    //adds these removed classes to the next key (key+1) and changes the active initiative to true
+    let nextInit = 0;
+    for (let char in initiativeDict) {
+        if (initiativeDict[char][1]) {
+            //remove active-char from init-order-[char]
+            $(`.init-order-${char}`).removeClass("active-char");
+            $(`.text-init-order-${char}`).removeClass("active-init");
+            nextInit = parseInt(char)+1;
+            initiativeDict[char][1] = false;
+        }
+    }
+    //Add to nextInit and update dict
+    if (nextInit > sortedCharacterList.length-1) {
+        nextInit = 0;
+    }
+    initiativeDict[nextInit][1] = true;
+    $(`.init-order-${nextInit}`).addClass("active-char");
+    $(`.text-init-order-${nextInit}`).addClass("active-init");
 }
 
 function checkAddCharModal() {
@@ -58,6 +80,13 @@ function checkAddCharModal() {
 }
 
 function createCharFromModal() {
+    //Takes the current information in the modal
+    //Creates either a player or npc with these inputted values
+    //Only called when all information is added
+    
+    //Calls ClearModal which clears the information in the Modal
+
+    //Calls sortClearAndUpdateInitiative which sends the information downstream
     if ($("#playerRadio").is(":checked")) {
         let playerName = $("#name").val();
         let newPlayerInit = $("#newCharInit").val();
@@ -88,13 +117,13 @@ function populateInitGroup() {
 
     for (let i = 0; i < sortedCharacterList.length; i++) {
         let selectedChar = sortedCharacterList[i];
-        let textInputInitColorStart = "text-init align-top"
-        let borderCharInfoDiv = "character-info"
+        let textInputInitColorStart = `text-init align-top text-init-order-${i}`;
+        let borderCharInfoDiv = `character-info init-order-${i}`;
         let health = "";
 
         if (i == 0) {
-            textInputInitColorStart = "active-init text-init align-top";
-            borderCharInfoDiv = "character-info active-char";
+            textInputInitColorStart = `active-init text-init align-top text-init-order-${i}`
+            borderCharInfoDiv = `character-info active-char init-order-${i}`;
         }
 
         if (selectedChar.type == "player") {
@@ -119,12 +148,6 @@ function populateInitGroup() {
     
 }
 
-function clearModal() {
-    $("#name").val("");
-    $("#newCharInit").val("");
-    $("#newCharAC").val("");
-    $("#newCharHP").val("");
-}
 
 function sortCharList() {
     //Takes the characterList and sorts it by initiative
@@ -134,6 +157,16 @@ function sortCharList() {
         let charInit = character.initiative;
         sortInit(charInit, character);
     }
+    updateInitiativeDictionary();
+}
+
+function updateInitiativeDictionary() {
+    //called after sortCharList()
+    //takes the final sortedCharacterList and adds these to the dictionary with the keys
+    for (let i = 0; i < sortedCharacterList.length; i++) {
+        initiativeDict[i] = [sortedCharacterList[i], false];
+    }
+    initiativeDict[0][1] = true;
 }
 
 function sortInit(charInit, character) {
@@ -167,8 +200,16 @@ function clearInitiativeGroup() {
     $(".row-3").empty();
 }
 
+function clearModal() {
+    $("#name").val("");
+    $("#newCharInit").val("");
+    $("#newCharAC").val("");
+    $("#newCharHP").val("");
+}
+
 function sortClearAndUpdateInitiative() {
-    //populate initiative group
+    //control function to be used to clear out the initiative group and then
+    //populates the initiative group
     clearInitiativeGroup();
     populateInitGroup();
 }
