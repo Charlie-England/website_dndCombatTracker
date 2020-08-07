@@ -12,6 +12,7 @@ characterList.push(kezil);
 characterList.push(selryn);
 characterList.push(goblin);
 sortClearAndUpdateInitiative();
+grabCharacterListFromServer();
 
 
 function Player(name, initiative=0, passivePerception=0, ac=0, hp=0) {
@@ -305,4 +306,13 @@ function toggleMoreInfoHidden(plan) {
 function clearSidePanelDivs() {
     //removes all the divs under the more-info class div
     $(".side-panel-character").empty();
+}
+
+function grabCharacterListFromServer() {
+    //Grabs the character list from the server
+    //gets returned character/player objects
+    fetch("/startCharacterList", {method: "GET"})
+    .then(res => res.json())
+    .then(console.log)
+
 }
