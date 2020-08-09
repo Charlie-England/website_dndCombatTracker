@@ -39,9 +39,18 @@ body {
 }
 
 .row-2 {
-    border-bottom: solid;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.row-2-a {
+    margin-bottom: -30px;
+}
+
+.row-3 {
+    border-top: solid;
     border-color: gray;
-    margin-bottom: 30px;
+    padding-top: 20px;
 }
 
 .row-4 {

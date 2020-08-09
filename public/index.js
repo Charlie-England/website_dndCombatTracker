@@ -37,7 +37,11 @@ function NPC(name, initiative=0, ac=0, hp=0) {
 $(".update-init").prop("disabled", true);
 
 $(".next-init").click(function() {
-    moveInitiative();
+    moveInitiative("next");
+})
+
+$(".prev-init").click(function() {
+    moveInitiative("prev");
 })
 
 $(".addCharacter").click(function() {
@@ -76,7 +80,7 @@ function removeDisabledFromUpdateButton() {
     $(".update-init").prop("disabled", false);
 }
 
-function moveInitiative() {
+function moveInitiative(direction) {
     //finds the key to the currently active initiative
     //removes the active-char and active-init classes using this as a reference
     //changes the active initiative to false
@@ -88,13 +92,20 @@ function moveInitiative() {
             //remove active-char from init-order-[char]
             $(`.init-order-${char}`).removeClass("active-char");
             $(`.text-init-order-${char}`).removeClass("active-init");
-            nextInit = parseInt(char)+1;
-            initiativeDict[char][1] = false;
+            if (direction == "next") {
+                nextInit = parseInt(char)+1;
+            } else if (direction == "prev") {
+                nextInit = parseInt(char)-1;
+            }
+  
+            initiativeDict[char][1] = false; //remove activeplayer bool from initiativedict
         }
     }
     //Add to nextInit and update dict
     if (nextInit > sortedCharacterList.length-1) {
         nextInit = 0;
+    } else if (nextInit < 0) {
+        nextInit = sortedCharacterList.length-1;
     }
     initiativeDict[nextInit][1] = true;
     $(`.init-order-${nextInit}`).addClass("active-char");
@@ -312,7 +323,9 @@ function grabCharacterListFromServer() {
     //Grabs the character list from the server
     //gets returned character/player objects
     fetch("/startCharacterList", {method: "GET"})
-    .then(res => res.json())
-    .then(console.log)
-
+    .then(response => response.json())
+    .then(function(data) {
+        console.log(data);
+        return data;
+    })
 }
