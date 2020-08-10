@@ -3,6 +3,17 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.header {
+    text-align: center;
+    margin: 10px auto;
+}
+
+.header-div {
+    background-color: #bbbcbe;
+    margin-bottom: 10px;
+    border-bottom: solid gray;
+}
+
 .initiative-group {
     background-color: #fff;
     border: solid;
@@ -124,8 +135,24 @@ body {
     background-color: #bbbbbb;
 }
 
+
+
+/* Side Panel Adjustments */
+
 .side-panel-character {
     margin-left: 20px;
     border: solid;
     border-color: gray;
+    background-color: #fff;
+}
+
+.input-group-text {
+    width: 100px;
+}
+
+#search-monster-first {
+    margin-top: 20px;
+}
+
+.more-info {
 }

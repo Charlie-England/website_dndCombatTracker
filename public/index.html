@@ -60,10 +60,10 @@
     <!-- body -->
     <div class="container initiative-main">
         <div class="row">
-            <div class="col initiative-group col-7">
+            <div class="col initiative-group col-6">
                 <div class="row row-1">
-                  <div class="col col-12">
-                    <h3>Combat Tracker</h3>
+                  <div class="col col-12 header-div">
+                    <h3 class="header">Combat Tracker</h3>
                   </div>
                 </div>
 
@@ -94,8 +94,109 @@
                 </div>
             </div>
 
-            <div class="col more-info col-5 hidden">
+            <div class="col more-info col-6"> <!--Add hidden class back in-->
                 <div class="row side-panel-character">
+
+                  <div class="col col-12 header-div">
+                    <h3 class="header">Search for Monster</h3>
+                  </div>
+
+                  <form action="/searchMonster" method="POST">
+
+
+                  <div class="input-group mb-3" id="search-monster-first">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="monsterSearchName">Name</label>
+                    </div>
+                    <input type="text" class="form-control" id="monsterSearchName" name="nameInput">
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Type</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" name="typeChoice">
+                      <option selected>Choose...</option>
+                      <option value="1">Abberation</option>
+                      <option value="2">Beast</option>
+                      <option value="3">Celestial</option>
+                      <option value="4">Construct</option>
+                      <option value="5">Dragon</option>
+                      <option value="6">Elemental</option>
+                      <option value="7">Fey</option>
+                      <option value="8">Fiend (demon/devl/shapechanger)</option>
+                      <option value="9">Giant</option>
+                      <option value="10">Humanoid</option>
+                      <option value="11">Monstrosity</option>
+                      <option value="12">Oooze</option>
+                      <option value="13">Plant</option>
+                      <option value="14">Swarm</option>
+                      <option value="15">Undead</option>
+                    </select>
+                  </div>
+
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect02">Alignment</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect02" name="alignmentChoice">
+                      <option selected>Choose...</option>
+                      <option value="1">lawful good</option>
+                      <option value="2">lawful neutral</option>
+                      <option value="3">lawful evil</option>
+                      <option value="4">neutral good</option>
+                      <option value="5">neutral</option>
+                      <option value="6">neutral evil</option>
+                      <option value="7">chaotic good</option>
+                      <option value="8">chaotic neutral</option>
+                      <option value="9">chaotic evil</option>
+                    </select>
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect03">Challenge</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect03" name="challengeChoice">
+                      <option selected>Choose...</option>
+                      <option value="1">0</option>
+                      <option value="2">1/8</option>
+                      <option value="3">1/4</option>
+                      <option value="4">1/2</option>
+                      <option value="5">1</option>
+                      <option value="6">2</option>
+                      <option value="7">3</option>
+                      <option value="8">4</option>
+                      <option value="9">5</option>
+                      <option value="10">6</option>
+                      <option value="11">7</option>
+                      <option value="12">8</option>
+                      <option value="13">9</option>
+                      <option value="14">10</option>
+                      <option value="15">11</option>
+                      <option value="16">12</option>
+                      <option value="17">13</option>
+                      <option value="18">14</option>
+                      <option value="19">15</option>
+                      <option value="20">16</option>
+                      <option value="21">17</option>
+                      <option value="22">18</option>
+                      <option value="23">19</option>
+                      <option value="24">20</option>
+                      <option value="25">21</option>
+                      <option value="26">22</option>
+                      <option value="27">23</option>
+                      <option value="28">24</option>
+                      <option value="29">30</option>
+
+                    </select>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Search</button>
+
+                </form>
+
                 </div>
             </div>
         </div>

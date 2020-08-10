@@ -1,7 +1,9 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 let app = express();
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", function(req, res) {
     req.sendFile(__dirname+"/public/index.html");
@@ -14,9 +16,45 @@ app.get("/startCharacterList", function(req,res) {
     res.json(strJSON);
 })
 
+app.post("/searchMonster", function(req, res) {
+
+    let nameInput = req.body.nameInput;
+    let typeChoice = req.body.typeChoice;
+    let alignmentChoice = req.body.alignmentChoice;
+    let challengeChoice = req.body.challengeChoice;
+    let byTypes = sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, challengeChoice);
+
+    let returnMonsterList = searchMonster(byTypes);
+
+    console.log(returnMonsterList);
+
+    res.send(JSON.stringify(returnMonsterList))
+
+})
+
 app.listen(3000, function() {
     console.log("Server running on port 3000.");
 })
+
+
+function sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, challengeChoice) {
+    let byTypes = {};
+
+    if (nameInput) {
+        byTypes["name"] = nameInput;
+    }
+    if (typeChoice != "Choose...") {
+        byTypes["type"] = typeChoice;
+    }
+    if (alignmentChoice != "Choose...") {
+        byTypes["alignment"] = alignmentChoice;
+    }
+    if (challengeChoice != "Choose...") {
+        byTypes["challenge"] = challengeChoice;
+    }
+
+    return byTypes;
+}
 
 function getCharList() {
     let characterList = [];
@@ -101,6 +139,8 @@ function searchMonster(byTypes) {
 
 
     }
+
+    return monsterSearchReturnList;
 }
 
 searchMonster({name:"goblin", type:"humanoid", challenge:"1/4"});
