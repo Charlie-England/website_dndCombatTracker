@@ -60,33 +60,47 @@ function searchMonster(byTypes) {
     challenge: stringChallenge
     }
     */
+    let monsterSearchReturnList = [];
 
     let json = require(__dirname+"/monsters.json");
     for (let i = 0; i < json.length; i++) {
         let addAndTracker = 0; //adds up each time a value is met, if the tracker is equal to the length of the byTypes, its successful and adds the monster
         let metaList = json[i].meta.split(/[\s,]+/);
+        for (let b = 0; b < metaList.length; b++){
+            metaList[b] = metaList[b].toLowerCase();
+        }
+        let challengeList = json[i].Challenge.split(" ");
+
 
         for (let key in byTypes){
             //sort through all keys in byTypes and compare with the value of
             //the current monster, if all are true, add monster to returned list
             if (key == "name"){
                 if (byTypes[key].toLowerCase() == json[i].name.toLowerCase()) {
-                    console.log(`${byTypes[key]} : ${json[i].name}`);
                     addAndTracker++;
                 }
             } else if (key == "type") {
-
+                if (metaList.includes(byTypes[key])) {
+                    addAndTracker++;
+                }
             } else if (key == "alignment") {
-                console.log("alignment");
+                if (metaList.includes(byTypes[key])) {
+                    addAndTracker++;
+                }
             } else if (key == "challenge") {
-                console.log("challenge");
+                if (byTypes[key] == challengeList[0]) {
+                    addAndTracker++;
+                }
             }
         }
+
+
         if (addAndTracker == Object.keys(byTypes).length){
-            console.log("successfully added")
+            monsterSearchReturnList.push(json[i]);
         }
+
+
     }
-    console.log("working")
 }
 
-searchMonster({name:"goblin", type:"humanoid"});
+searchMonster({name:"goblin", type:"humanoid", challenge:"1/4"});
