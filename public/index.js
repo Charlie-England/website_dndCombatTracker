@@ -12,7 +12,7 @@ characterList.push(kezil);
 characterList.push(selryn);
 characterList.push(goblin);
 sortClearAndUpdateInitiative();
-grabCharacterListFromServer();
+characterList = grabCharacterListFromServer();
 
 
 function Player(name, initiative=0, passivePerception=0, ac=0, hp=0) {
@@ -58,6 +58,10 @@ $(".update-init").click(function() {
         // updateNewInitiative();
         sortClearAndUpdateInitiative();
     }
+})
+
+$(".add-monster").click(function() {
+    addMonster();
 })
 
 
@@ -321,6 +325,7 @@ function clearSidePanelDivs() {
 
 function grabCharacterListFromServer() {
     //Grabs the character list from the server
+    let rtrnCharData = [];
     //gets returned character/player objects
     fetch("/startCharacterList", {method: "GET"})
     .then(response => response.json())
@@ -328,4 +333,15 @@ function grabCharacterListFromServer() {
         console.log(data);
         return data;
     })
+}
+
+
+
+
+/**********************************ADD Monster*********************** */
+function addMonster() {
+    clearSidePanelDivs();
+    $(".side-panel-character").append("<h3>Add Monster</h3>")
+
+    toggleMoreInfoHidden("show");
 }

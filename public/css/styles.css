@@ -28,35 +28,39 @@ body {
     visibility: hidden;
 }
 
-.top-init-buttons {
-    margin-bottom: 15px;
-    margin-top: 30px;
-}
-
-.bottom-init-buttons {
-    margin-top: 15px;
-    margin-bottom: 30px;
-}
-
+/* ROW 2 */
 .row-2 {
     margin-bottom: 0;
     padding: 0;
+    margin: 0;
 }
 
-.row-2-a {
-    margin-bottom: -30px;
+.row-2-col {
+    height: 80px;
+    text-align: center;
 }
 
+.top-init-buttons {
+    margin: 0;
+}
+
+/* ROW 3 */
 .row-3 {
     border-top: solid;
     border-color: gray;
     padding-top: 20px;
 }
 
+/* ROW 4 */
 .row-4 {
     border-top: solid;
     border-color: gray;
     margin-top: 30px;
+}
+
+.bottom-init-buttons {
+    margin-top: 15px;
+    margin-bottom: 30px;
 }
 
 .text-init {
@@ -118,4 +122,10 @@ body {
 
 .char-hp:hover {
     background-color: #bbbbbb;
+}
+
+.side-panel-character {
+    margin-left: 20px;
+    border: solid;
+    border-color: gray;
 }
