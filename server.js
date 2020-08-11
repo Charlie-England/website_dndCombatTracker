@@ -16,21 +16,22 @@ app.get("/startCharacterList", function(req,res) {
     res.json(strJSON);
 })
 
-app.post("/searchMonster", function(req, res) {
+app.get("/monsterSearchResults", function(req, res) {
+    let nameInput = req.query.name;
+    let typeChoice = req.query.type;
+    let alignmentChoice = req.query.alignment;
+    let challengeChoice = req.query.challenge;
 
-    let nameInput = req.body.nameInput;
-    let typeChoice = req.body.typeChoice;
-    let alignmentChoice = req.body.alignmentChoice;
-    let challengeChoice = req.body.challengeChoice;
     let byTypes = sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, challengeChoice);
 
-    let returnMonsterList = searchMonster(byTypes);
+    let monsterSearchResults = searchMonster(byTypes);
+    
+    let monsterSearchResultJSON = JSON.stringify(monsterSearchResults);
 
-    console.log(returnMonsterList);
-
-    res.send(JSON.stringify(returnMonsterList))
-
+    res.json(monsterSearchResults)
 })
+
+
 
 app.listen(3000, function() {
     console.log("Server running on port 3000.");
@@ -114,6 +115,13 @@ function searchMonster(byTypes) {
             //sort through all keys in byTypes and compare with the value of
             //the current monster, if all are true, add monster to returned list
             if (key == "name"){
+                let nameList = json[i].name.split(" ");
+                let nameInputList = byTypes[key].split(" ");
+                //Implement namesearch by multiple fields
+                // if (nameInputList.length > 0) {
+
+                // }
+
                 if (byTypes[key].toLowerCase() == json[i].name.toLowerCase()) {
                     addAndTracker++;
                 }
@@ -142,5 +150,3 @@ function searchMonster(byTypes) {
 
     return monsterSearchReturnList;
 }
-
-searchMonster({name:"goblin", type:"humanoid", challenge:"1/4"});

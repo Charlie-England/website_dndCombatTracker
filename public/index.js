@@ -7,12 +7,8 @@ let selryn = new Player("Selryn", 15);
 let goblin = new NPC("Goblin", 12, 16, 7);
 
 
-//test code
-characterList.push(kezil);
-characterList.push(selryn);
-characterList.push(goblin);
-sortClearAndUpdateInitiative();
-characterList = grabCharacterListFromServer();
+//test code (update with list of characters)
+grabCharacterListFromServer();
 
 
 function Player(name, initiative=0, passivePerception=0, ac=0, hp=0) {
@@ -330,12 +326,20 @@ function grabCharacterListFromServer() {
     fetch("/startCharacterList", {method: "GET"})
     .then(response => response.json())
     .then(function(data) {
-        console.log(data);
-        return data;
+        updateCharListFromServer(data);
     })
 }
 
 
+function updateCharListFromServer(listOfCharacters) {
+    //called during grabCharacterListFromServer, takes the data (json)
+    //that was retrieved via a fetch request to the server
+    //converts this back and updates the characterList variable with this info
+    characterList = JSON.parse(listOfCharacters);
+    
+    clearInitiativeGroup();
+    populateInitGroup();
+}
 
 
 /**********************************ADD Monster*********************** */
@@ -344,4 +348,33 @@ function addMonster() {
     $(".side-panel-character").append("<h3>Add Monster</h3>")
 
     toggleMoreInfoHidden("show");
+}
+
+function populateMonsterSearchResults() {
+    //sends a get request with search information
+    
+    //gather search field information
+    let nameInput = $("[name='nameInput']").val();
+    let typeChoice = $("[name='typeChoice']").val();
+    let alignmentChoice = $("[name='alignmentChoice']").val();
+    let challengeChoice = $("[name='challengeChoice']").val();
+
+
+    fetch("/monsterSearchResults?" + new URLSearchParams({
+        name: nameInput,
+        type: typeChoice,
+        alignment: alignmentChoice,
+        challenge: challengeChoice
+    }), {method: "GET"})
+    .then(response => response.json())
+    .then(function(data) {
+        updateSearchResults(data);
+    })
+}
+
+function updateSearchResults(listOfMonsters) {
+    //takes the json list of monsters from search results, called during populateMonsterSearchResult
+    //creates divs with information as well as a button for each monster
+    //if no monsters are returned, creates div asking user for clarifying input
+    console.log(listOfMonsters)
 }
