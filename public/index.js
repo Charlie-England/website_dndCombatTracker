@@ -171,6 +171,10 @@ function sortInit(charInit, character) {
     for (let i = 0; i < sortedCharLength; i++) {
         pass = false;
         let compareInit = sortedCharacterList[i].initiative;
+
+        compareInit = parseInt(compareInit);
+        charInit = parseInt(charInit);
+
         if (charInit > compareInit) {
             pass = true;
             sortedCharacterList.splice(i,0,character);
@@ -216,6 +220,8 @@ function sortClearAndUpdateInitiative() {
 
     clearInitiativeGroup();
     populateInitGroup();
+    $(".update-init").prop("disabled", true);
+
 }
 
 function removeActive() {
@@ -514,6 +520,7 @@ function updateSearchResults(listOfMonsters) {
         let monsterType = monsterSearchList[i].meta.split(" ")[1];
         let monsterSize = monsterSearchList[i].meta.split(" ")[0];
         monsterSearchList[i].initiative = 0;
+        monsterSearchList[i].type = "monster";
         $(".monster-search-result").append(`<div class="row search-row row-color-${offColor}">
         <div class="col col-3 col-search"><p class="search-name search-result">${monsterName}</p></div>
         <div class="col col-2 col-search"><p class="search-cr search-result">${monsterCR}</p></div>

@@ -199,5 +199,6 @@ body {
 
 .close-button {
     position: absolute;
-    float: right;
+    right: 25px;
+    top: 5px;
 }
