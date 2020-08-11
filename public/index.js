@@ -1,6 +1,7 @@
 let characterList = [];
 let sortedCharacterList = [];
 let initiativeDict = {}; // 0:[player/npcClass, activeInitBool (true/false)]
+let monsterSearchList = [];
 
 let kezil = new Player("Kezil", 17);
 let selryn = new Player("Selryn", 15);
@@ -57,7 +58,7 @@ $(".update-init").click(function() {
 })
 
 $(".add-monster").click(function() {
-    addMonster();
+    addMonsterPanel();
 })
 
 
@@ -316,7 +317,7 @@ function toggleMoreInfoHidden(plan) {
 
 function clearSidePanelDivs() {
     //removes all the divs under the more-info class div
-    $(".side-panel-character").empty();
+    $(".more-info").empty();
 }
 
 function grabCharacterListFromServer() {
@@ -343,9 +344,135 @@ function updateCharListFromServer(listOfCharacters) {
 
 
 /**********************************ADD Monster*********************** */
-function addMonster() {
+function addMonsterPanel() {
     clearSidePanelDivs();
-    $(".side-panel-character").append("<h3>Add Monster</h3>")
+    $(".more-info").append(`<div class="row side-panel-character">
+
+    <div class="col col-12 header-div">
+      <h3 class="header">Quick Monster Add</h3>
+    </div>
+    <button class="btn btn-danger btn-sm close-button" onclick="closeSidePanelButton()">X</button>
+
+
+
+    <div class="input-group mb-3" id="search-monster-first">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="monsterSearchName">Name</label>
+      </div>
+      <input type="text" class="form-control" id="monsterSearchName" name="nameInput">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Type</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" name="typeChoice">
+        <option selected>Choose...</option>
+        <option value="1">Aberration</option>
+        <option value="2">Beast</option>
+        <option value="3">Celestial</option>
+        <option value="4">Construct</option>
+        <option value="5">Dragon</option>
+        <option value="6">Elemental</option>
+        <option value="7">Fey</option>
+        <option value="8">Fiend (demon/devl/shapechanger)</option>
+        <option value="9">Giant</option>
+        <option value="10">Humanoid</option>
+        <option value="11">Monstrosity</option>
+        <option value="12">Ooze</option>
+        <option value="13">Plant</option>
+        <option value="14">Undead</option>
+      </select>
+    </div>
+
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect02">Alignment</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect02" name="alignmentChoice">
+        <option selected>Choose...</option>
+        <option value="1">lawful good</option>
+        <option value="2">lawful neutral</option>
+        <option value="3">lawful evil</option>
+        <option value="4">neutral good</option>
+        <option value="5">neutral</option>
+        <option value="6">neutral evil</option>
+        <option value="7">chaotic good</option>
+        <option value="8">chaotic neutral</option>
+        <option value="9">chaotic evil</option>
+        <option value="10">unaligned</option>
+      </select>
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect03">Challenge</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect03" name="challengeChoice">
+        <option selected>Choose...</option>
+        <option value="26">0</option>
+        <option value="27">1/8</option>
+        <option value="28">1/4</option>
+        <option value="29">1/2</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">30</option>
+
+      </select>
+    </div>
+
+    <button class="btn btn-primary" onclick="populateMonsterSearchResults()">Search</button>
+    <button class="btn btn-secondary right-align" onclick="clearMonsterSearchFields()">Clear</button>
+  </div>
+
+  <div class="row side-panel-character search-results">
+    <div class="col col-12">
+      <p>Search Results:</p>
+    </div>
+    <!-- References -->
+    <div class="col col-3 search-labels">
+      <p>Name</p>
+    </div>
+    <div class="col col-2 search-label-color search-labels">
+      <p>CR</p>
+    </div>
+    <div class="col col-3 search-labels">
+      <p>Type</p>
+    </div>
+    <div class="col col-3 search-label-color search-labels">
+      <p>Size</p>
+    </div>
+
+    <!-- name, CR, type, size, alignment -->
+
+    <div class="col col-12 monster-search-result">
+
+    </div>
+
+  </div>`)
 
     toggleMoreInfoHidden("show");
 }
@@ -376,5 +503,46 @@ function updateSearchResults(listOfMonsters) {
     //takes the json list of monsters from search results, called during populateMonsterSearchResult
     //creates divs with information as well as a button for each monster
     //if no monsters are returned, creates div asking user for clarifying input
-    console.log(listOfMonsters)
+    //append to the search results div
+    monsterSearchList = listOfMonsters;
+    clearMonsterSearchFields();
+    let offColor = 0;
+
+    for (let i = 0; i < monsterSearchList.length; i++) {
+        let monsterName = monsterSearchList[i].name;
+        let monsterCR = monsterSearchList[i].Challenge.split(" ")[0];
+        let monsterType = monsterSearchList[i].meta.split(" ")[1];
+        let monsterSize = monsterSearchList[i].meta.split(" ")[0];
+        monsterSearchList[i].initiative = 0;
+        $(".monster-search-result").append(`<div class="row search-row row-color-${offColor}">
+        <div class="col col-3 col-search"><p class="search-name search-result">${monsterName}</p></div>
+        <div class="col col-2 col-search"><p class="search-cr search-result">${monsterCR}</p></div>
+        <div class="col col-2 col-search"><p class="search-type search-result">${monsterType}</p></div>
+        <div class="col col-3 col-search"><p class="search-size search-result">${monsterSize}</p></div>
+        <div class="col col-2"><button class="btn btn-secondary btn-sm add-search-monster" onclick="addSearchMonster(${i})">+</button></div>
+        </div>`)
+        
+        if (offColor == 0) {
+            offColor++;
+        } else {
+            offColor = 0;
+        }
+    }
+}
+
+function clearMonsterSearchFields() {
+    //clears the search fields of all input
+    //can be used with the clear button as well as the
+    $(".monster-search-result").empty();
+}
+
+function addSearchMonster(monsterIndex) {
+    characterList.push(monsterSearchList[monsterIndex]);
+
+    sortClearAndUpdateInitiative();
+}
+
+function closeSidePanelButton() {
+    clearSidePanelDivs();
+    toggleMoreInfoHidden("hide");
 }

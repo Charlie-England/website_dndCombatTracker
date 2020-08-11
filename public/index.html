@@ -59,7 +59,7 @@
 
     <!-- body -->
     <div class="container initiative-main">
-        <div class="row">
+        <div class="row main-row">
             <div class="col initiative-group col-6">
                 <div class="row row-1">
                   <div class="col col-12 header-div">
@@ -94,14 +94,14 @@
                 </div>
             </div>
 
-            <div class="col more-info col-6"> <!--Add hidden class back in-->
-                <div class="row side-panel-character">
+            <div class="col more-info float-right col-6 hidden"> <!--Add hidden class back in-->
+                <!-- <div class="row side-panel-character">
 
                   <div class="col col-12 header-div">
-                    <h3 class="header">Search for Monster</h3>
+                    <h3 class="header">Quick Monster Add</h3>
                   </div>
+                  <button class="btn btn-danger btn-sm close-button" onclick="closeSidePanelButton()">X</button>
 
-                  <!-- <form action="/monsterSearchResults" method="GET"> -->
 
 
                   <div class="input-group mb-3" id="search-monster-first">
@@ -160,44 +160,68 @@
                     </div>
                     <select class="custom-select" id="inputGroupSelect03" name="challengeChoice">
                       <option selected>Choose...</option>
-                      <option value="1">0</option>
-                      <option value="2">1/8</option>
-                      <option value="3">1/4</option>
-                      <option value="4">1/2</option>
-                      <option value="5">1</option>
-                      <option value="6">2</option>
-                      <option value="7">3</option>
-                      <option value="8">4</option>
-                      <option value="9">5</option>
-                      <option value="10">6</option>
-                      <option value="11">7</option>
-                      <option value="12">8</option>
-                      <option value="13">9</option>
-                      <option value="14">10</option>
-                      <option value="15">11</option>
-                      <option value="16">12</option>
-                      <option value="17">13</option>
-                      <option value="18">14</option>
-                      <option value="19">15</option>
-                      <option value="20">16</option>
-                      <option value="21">17</option>
-                      <option value="22">18</option>
-                      <option value="23">19</option>
-                      <option value="24">20</option>
-                      <option value="25">21</option>
-                      <option value="26">22</option>
-                      <option value="27">23</option>
-                      <option value="28">24</option>
-                      <option value="29">30</option>
+                      <option value="26">0</option>
+                      <option value="27">1/8</option>
+                      <option value="28">1/4</option>
+                      <option value="29">1/2</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                      <option value="21">21</option>
+                      <option value="22">22</option>
+                      <option value="23">23</option>
+                      <option value="24">24</option>
+                      <option value="25">30</option>
 
                     </select>
                   </div>
 
                   <button class="btn btn-primary" onclick="populateMonsterSearchResults()">Search</button>
-
-                <!-- </form> -->
-
+                  <button class="btn btn-secondary right-align" onclick="clearMonsterSearchFields()">Clear</button>
                 </div>
+
+                <div class="row side-panel-character search-results">
+                  <div class="col col-12">
+                    <p>Search Results:</p>
+                  </div>
+                  References
+                  <div class="col col-3 search-labels">
+                    <p>Name</p>
+                  </div>
+                  <div class="col col-2 search-label-color search-labels">
+                    <p>CR</p>
+                  </div>
+                  <div class="col col-3 search-labels">
+                    <p>Type</p>
+                  </div>
+                  <div class="col col-3 search-label-color search-labels">
+                    <p>Size</p>
+                  </div>
+
+                  name, CR, type, size, alignment
+
+                  <div class="col col-12 monster-search-result">
+
+                  </div>
+
+                </div> -->
             </div>
         </div>
     </div>

@@ -21,8 +21,9 @@ body {
 }
 
 .initiative-main {
+    margin: 40px 5% auto 5%;
     margin-top: 40px;
-    margin-left: 5%;
+    padding: 0px;
 }
 
 .character-button {
@@ -140,10 +141,13 @@ body {
 /* Side Panel Adjustments */
 
 .side-panel-character {
-    margin-left: 20px;
+    margin: auto 5px auto auto;
     border: solid;
     border-color: gray;
     background-color: #fff;
+    padding: 2px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .input-group-text {
@@ -154,5 +158,46 @@ body {
     margin-top: 20px;
 }
 
-.more-info {
+.right-align {
+    display: inline-block;
+    margin: auto 0px auto auto
+}
+
+.search-labels {
+    font-size: .8rem;
+    max-height: 20px;
+}
+
+.search-label-color {
+    background-color: #e1e2e4;
+}
+
+.monster-search-result {
+    font-size: .8rem;
+}
+
+.search-result {
+    text-align: center;
+}
+
+.search-row {
+    height: 80px;
+}
+
+.row-color-1 {
+    background-color: #ececec;
+}
+
+.add-search-monster {
+    height: 30px;
+    margin: 5px 5px auto;
+}
+
+.col-search {
+    margin-top: 10px;
+}
+
+.close-button {
+    position: absolute;
+    float: right;
 }

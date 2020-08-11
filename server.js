@@ -51,7 +51,7 @@ function sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, chall
         byTypes["alignment"] = alignmentNumSwitchCase(alignmentChoice);
     }
     if (challengeChoice != "Choose...") {
-        byTypes["challenge"] = challengeChoice;
+        byTypes["challenge"] = challengeNumSwitchCase(challengeChoice);
     }
 
     return byTypes;
@@ -122,6 +122,7 @@ function searchMonster(byTypes) {
         for (let key in byTypes){
             //sort through all keys in byTypes and compare with the value of
             //the current monster, if all are true, add monster to returned list
+
             if (key == "name"){
                 let nameInputList = byTypes[key].split(" ");
                 nameInputList = lowerAllInList(nameInputList);
@@ -136,21 +137,21 @@ function searchMonster(byTypes) {
                     addAndTracker++;
                 }
 
-                // if (byTypes[key].toLowerCase() == json[i].name.toLowerCase()) {
-                //     addAndTracker++;
-                // }
             } else if (key == "type") {
                 if (metaList.includes(byTypes[key])) {
                     addAndTracker++;
                 }
+
             } else if (key == "alignment") {
                 if (metaList.includes(byTypes[key])) {
                     addAndTracker++;
                 }
+
             } else if (key == "challenge") {
                 if (byTypes[key] == challengeList[0]) {
                     addAndTracker++;
                 }
+
             }
         }
 
@@ -239,5 +240,27 @@ function alignmentNumSwitchCase(alignmentNum) {//alignment reference switch case
             return "chaotic evil";
         case 10: //Unaligned
             return "unaligned";
+    }
+}
+
+function challengeNumSwitchCase(challengeNum) { //Challenge Rating Reference Switch Case
+    let challengeNumInt = parseInt(challengeNum);
+
+
+    if (challengeNumInt < 25) {
+        return challengeNum;
+    } else {
+        switch (challengeNumInt) {
+            case 25:
+                return "30";
+            case 26:
+                return "0";
+            case 27:
+                return "1/8";
+            case 28:
+                return "1/4";
+            case 29:
+                return "1/2"
+        }
     }
 }
