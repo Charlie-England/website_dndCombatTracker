@@ -25,9 +25,8 @@ app.get("/monsterSearchResults", function(req, res) {
     let byTypes = sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, challengeChoice);
 
     let monsterSearchResults = searchMonster(byTypes);
-    
-    let monsterSearchResultJSON = JSON.stringify(monsterSearchResults);
-
+    console.log(byTypes)
+    // let monsterSearchResultJSON = JSON.stringify(monsterSearchResults);
     res.json(monsterSearchResults)
 })
 
@@ -45,10 +44,11 @@ function sortInputAndReturnByTypes(nameInput, typeChoice, alignmentChoice, chall
         byTypes["name"] = nameInput;
     }
     if (typeChoice != "Choose...") {
-        byTypes["type"] = typeChoice;
+        byTypes["type"] = typeNumSwitchCase(typeChoice);
+        console.log(typeof(typeChoice))
     }
     if (alignmentChoice != "Choose...") {
-        byTypes["alignment"] = alignmentChoice;
+        byTypes["alignment"] = alignmentNumSwitchCase(alignmentChoice);
     }
     if (challengeChoice != "Choose...") {
         byTypes["challenge"] = challengeChoice;
@@ -86,6 +86,13 @@ function NPC(name, initiative=0, ac=0, hp=0) {
     this.hp = hp;
 }
 
+function lowerAllInList(listToLower) {
+    for (let i = 0; i < listToLower.length; i++){
+        listToLower[i] = listToLower[i].toLowerCase();
+    }
+    return listToLower;
+}
+
 
 function searchMonster(byTypes) {
     /* takes 1 param, a dictionary (object), with at least 1 key:value
@@ -105,26 +112,33 @@ function searchMonster(byTypes) {
     for (let i = 0; i < json.length; i++) {
         let addAndTracker = 0; //adds up each time a value is met, if the tracker is equal to the length of the byTypes, its successful and adds the monster
         let metaList = json[i].meta.split(/[\s,]+/);
-        for (let b = 0; b < metaList.length; b++){
-            metaList[b] = metaList[b].toLowerCase();
-        }
+        metaList = lowerAllInList(metaList);
         let challengeList = json[i].Challenge.split(" ");
+        let nameList = json[i].name.split(" ");
+        nameList = lowerAllInList(nameList);
+
 
 
         for (let key in byTypes){
             //sort through all keys in byTypes and compare with the value of
             //the current monster, if all are true, add monster to returned list
             if (key == "name"){
-                let nameList = json[i].name.split(" ");
                 let nameInputList = byTypes[key].split(" ");
+                nameInputList = lowerAllInList(nameInputList);
+                let nameMatch = 0;
                 //Implement namesearch by multiple fields
-                // if (nameInputList.length > 0) {
-
-                // }
-
-                if (byTypes[key].toLowerCase() == json[i].name.toLowerCase()) {
+                for (let input = 0; input < nameInputList.length; input++) {
+                    if (nameList.includes(nameInputList[input])) {
+                        nameMatch++;
+                    }
+                }
+                if (nameMatch == nameInputList.length) {
                     addAndTracker++;
                 }
+
+                // if (byTypes[key].toLowerCase() == json[i].name.toLowerCase()) {
+                //     addAndTracker++;
+                // }
             } else if (key == "type") {
                 if (metaList.includes(byTypes[key])) {
                     addAndTracker++;
@@ -149,4 +163,81 @@ function searchMonster(byTypes) {
     }
 
     return monsterSearchReturnList;
+}
+function typeNumSwitchCase(typeNum) {//Type Reference Switch Case
+    typeNum = parseInt(typeNum)
+
+    switch (typeNum) {
+        //Switch case for the type number value reference to string type
+        //takes a number (from option value on index.html) and returns a string for that number reference to type
+        case 1: 
+            //Aberration
+            return "aberration"
+        case 2:
+            //Beast
+            return "beast"
+        case 3:
+            //Celestial
+            return "celestial";
+        case 4:
+            //Construct
+            return "construct";
+        case 5:
+            //Dragon
+            return "dragon";
+        case 6:
+            //Elemental
+            return "elemental";
+        case 7:
+            //Fey
+            return "fey";
+        case 8:
+            //Fiend
+            return "fiend";
+        case 9:
+            //Giant
+            return "giant";
+        case 10:
+            //Humanoid
+            return "humanoid";
+        case 11:
+            //Monstrosity
+            return "monstrosity";
+        case 12:
+            //Ooze
+            return "ooze";
+        case 13:
+            //Plant
+            return "plant";
+        case 14:
+            //Undead
+            return "undead";
+    }
+}
+
+function alignmentNumSwitchCase(alignmentNum) {//alignment reference switch case
+    alignmentNum = parseInt(alignmentNum);
+
+    switch (alignmentNum) { 
+        case 1: //Lawful Good
+            return "lawful good";
+        case 2: //Lawful Neutral
+            return "lawful neutral";
+        case 3: //Lawful Evil
+            return "lawful evil";
+        case 4: //Neutral Good
+            return "neutral good";
+        case 5: //Neutral
+            return "neutral";
+        case 6: //Neutral Evil
+            return "neutral evil";
+        case 7: //Chaotic Good
+            return "chaotic good";
+        case 8: //Chaotic Neutral
+            return "chaotic neutral";
+        case 9: //Chaotic Evil
+            return "chaotic evil";
+        case 10: //Unaligned
+            return "unaligned";
+    }
 }
