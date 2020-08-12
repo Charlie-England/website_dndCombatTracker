@@ -374,7 +374,7 @@ function addMonsterPanel() {
         <label class="input-group-text" for="inputGroupSelect01">Type</label>
       </div>
       <select class="custom-select" id="inputGroupSelect01" name="typeChoice">
-        <option selected>Choose...</option>
+        <option value="15" selected>Choose...</option>
         <option value="1">Aberration</option>
         <option value="2">Beast</option>
         <option value="3">Celestial</option>
@@ -398,7 +398,7 @@ function addMonsterPanel() {
         <label class="input-group-text" for="inputGroupSelect02">Alignment</label>
       </div>
       <select class="custom-select" id="inputGroupSelect02" name="alignmentChoice">
-        <option selected>Choose...</option>
+        <option value="11" selected>Choose...</option>
         <option value="1">lawful good</option>
         <option value="2">lawful neutral</option>
         <option value="3">lawful evil</option>
@@ -417,7 +417,7 @@ function addMonsterPanel() {
         <label class="input-group-text" for="inputGroupSelect03">Challenge</label>
       </div>
       <select class="custom-select" id="inputGroupSelect03" name="challengeChoice">
-        <option selected>Choose...</option>
+        <option value="30" selected>Choose...</option>
         <option value="26">0</option>
         <option value="27">1/8</option>
         <option value="28">1/4</option>
@@ -549,6 +549,10 @@ function clearMonsterSearchFields() {
     //can be used with the clear button as well as the
     $(".monster-search-result").empty();
     $("#monsterSearchName").val("");
+    $("#inputGroupSelect01").val("15");
+    $("#inputGroupSelect02").val("11");
+    $("#inputGroupSelect03").val("30");
+
 }
 
 function addSearchMonster(monsterIndex) {
