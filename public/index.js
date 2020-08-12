@@ -352,7 +352,8 @@ function updateCharListFromServer(listOfCharacters) {
 /**********************************ADD Monster*********************** */
 function addMonsterPanel() {
     clearSidePanelDivs();
-    $(".more-info").append(`<div class="row side-panel-character">
+    $(".more-info").append(`
+    <div class="row side-panel-character">
 
     <div class="col col-12 header-div">
       <h3 class="header">Quick Monster Add</h3>
@@ -473,7 +474,6 @@ function addMonsterPanel() {
     </div>
 
     <!-- name, CR, type, size, alignment -->
-
     <div class="col col-12 monster-search-result">
 
     </div>
@@ -510,6 +510,13 @@ function updateSearchResults(listOfMonsters) {
     //creates divs with information as well as a button for each monster
     //if no monsters are returned, creates div asking user for clarifying input
     //append to the search results div
+    console.log(listOfMonsters.length)
+    if (listOfMonsters.length == 0) {
+        $(".monster-search-result").append(`<div class="row search-row row-color-0">
+        <div class="col col-12 col-search"><p class="search-cr search-result">No results found, please refine search.</p></div>
+        </div>`);
+        return "";
+    }
     monsterSearchList = listOfMonsters;
     clearMonsterSearchFields();
     let offColor = 0;
@@ -541,6 +548,7 @@ function clearMonsterSearchFields() {
     //clears the search fields of all input
     //can be used with the clear button as well as the
     $(".monster-search-result").empty();
+    $("#monsterSearchName").val("");
 }
 
 function addSearchMonster(monsterIndex) {

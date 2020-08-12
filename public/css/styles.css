@@ -176,8 +176,9 @@ body {
     font-size: .8rem;
 }
 
-.search-result {
+.search-results {
     text-align: center;
+    border-top: none;
 }
 
 .search-row {
